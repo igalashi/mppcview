@@ -1,3 +1,7 @@
+#
+#
+#
+
 CXX = g++
 #CXXFLAGS = -Wall -g -O
 CXXFLAGS = -std=c++11 -Wall -g -O
@@ -11,7 +15,6 @@ ROOTLIBS = $(shell $(ROOTSYS)/bin/root-config --libs) \
 	-Xlinker -rpath $(ROOTSYS)/lib
 ROOTGLIBS = $(shell $(ROOTSYS)/bin/root-config --glibs)
 
-#all: readfromstdin readandcheck readanddecode readandfill onlinedisplay readandtree r6test hello
 all: appmain decode mperiod
 
 decode: decode.cxx
@@ -38,38 +41,6 @@ r6test: r6test.cxx
 		-lRHTTP
 		#-lThread
 
-hello: hello.cxx
-	$(CXX) $(CXXFLAGS) -o $@ \
-		-I$(ROOTINCDIR) \
-		hello.cxx \
-		$(ROOTLIBS) $(ROOTGLIBS) \
-		-lRHTTP
-
-anim: anim.cxx
-	$(CXX) $(CXXFLAGS) -o $@ \
-		-I$(ROOTINCDIR) \
-		$< \
-		-L$(ROOTLIBDIR) $(ROOTLIBS) $(ROOTGLIBS) \
-		-lThread
-
-frame: frame.cxx
-	$(CXX) $(CXXFLAGS) -o $@ \
-		-I$(ROOTINCDIR) \
-		$< \
-		-L$(ROOTLIBDIR) $(ROOTLIBS) $(ROOTGLIBS) \
-		-lThread
-
-exam: exammain.cxx exam.h exam.cxx exam_dict.cxx
-	$(CXX) $(CXXFLAGS) -o $@ \
-		-I$(ROOTINCDIR) \
-		exammain.cxx exam.cxx exam_dict.cxx \
-		-L$(ROOTLIBDIR) $(ROOTLIBS) $(ROOTGLIBS) \
-		-lThread
-
-exam_dict.cxx: exam.h exam_LinkDef.h
-	#rootcling -f $@ -c $(CXXFLAGS) -p $^
-	rootcling -f $@ -c  -p $^
-
 appmain: appmain.cxx appframe.h appframe.cxx appframe_dict.cxx datareader.cxx
 	$(CXX) $(CXXFLAGS) -o $@ \
 		-I$(ROOTINCDIR) \
@@ -78,8 +49,8 @@ appmain: appmain.cxx appframe.h appframe.cxx appframe_dict.cxx datareader.cxx
 		-lThread
 
 appframe_dict.cxx: appframe.h appframe_LinkDef.h
-	#rootcling -f $@ -c $(CXXFLAGS) -p $^
 	rootcling -f $@ -c  -p $^
+
 
 tstexec: tstexec.cxx
 	$(CXX) $(CXXFLAGS) -o $@ \
