@@ -15,7 +15,9 @@ ROOTLIBS = $(shell $(ROOTSYS)/bin/root-config --libs) \
 	-Xlinker -rpath $(ROOTSYS)/lib
 ROOTGLIBS = $(shell $(ROOTSYS)/bin/root-config --glibs)
 
-all: appmain decode mperiod
+EXECS = appmain decode mperiod qanal
+
+all: $(EXECS)
 
 decode: decode.cxx
 	$(CXX) $(CXXFLAGS) -o $@ -D TEST_MAIN \
@@ -29,6 +31,14 @@ onlinedisplay: onlinedisplay.cxx
 	$(CXX) $(CXXFLAGS) -o $@ \
 		-I$(ROOTINCDIR) \
 		onlinedisplay.cxx \
+		-L$(ROOTLIBDIR) $(ROOTLIBS) $(ROOTGLIBS) \
+		-lThread \
+		-Wl,-rpath=$(ROOTSYS)/lib
+
+qanal: qanal.cxx decode.cxx
+	$(CXX) $(CXXFLAGS) -o $@ \
+		-I$(ROOTINCDIR) \
+		$< \
 		-L$(ROOTLIBDIR) $(ROOTLIBS) $(ROOTGLIBS) \
 		-lThread \
 		-Wl,-rpath=$(ROOTSYS)/lib
@@ -85,7 +95,8 @@ libtst.so: tstdict.cxx tst.cxx tst.h
 	$(CXX) -shared -fPIC -o$@ -m64 $(CXXFLAGS) -I$(ROOTSYS)/include $^
 
 clean:
-	rm -f appmain appframe_dict.cxx appframe_dict_rdict.pcm
+	rm -f $(EXECS)
+	rm -f appframe_dict.cxx appframe_dict_rdict.pcm
 	rm -f decode mperiod
 	rm -f onlinedisplay
 	rm -f display.png display.pdf

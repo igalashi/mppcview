@@ -20,6 +20,7 @@ private:
 	TRootEmbeddedCanvas *fEcanvas;
 	bool m_run_state = false;
 	int m_scale = 512;
+	int m_xscale = 512;
 	bool m_enable_ch[8] = {
 		false, false, false, false,
 		false, false, false, false};
@@ -31,6 +32,8 @@ public:
 	bool GetRunState();
 	int ToggleScale();
 	int GetScale();
+	int ToggleXScale();
+	int GetXScale();
 	bool *DoEnableCh();
 	bool *GetEnableCh();
 	void PrintCanvas();

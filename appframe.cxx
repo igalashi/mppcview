@@ -39,9 +39,14 @@ AppFrame::AppFrame(const TGWindow *p, UInt_t w, UInt_t h) {
 	vframe->AddFrame(bdraw,
 		new TGLayoutHints(kLHintsCenterX | kLHintsExpandX, 2, 4, 4, 4));
 
-	TGTextButton *btoggle = new TGTextButton(vframe, "&Scale");
+	TGTextButton *btoggle = new TGTextButton(vframe, "&Y-Scale");
 	btoggle->Connect("Clicked()", "AppFrame", this, "ToggleScale()");
 	vframe->AddFrame(btoggle,
+		new TGLayoutHints(kLHintsCenterX | kLHintsExpandX, 2, 4, 4, 4));
+
+	TGTextButton *bxscale = new TGTextButton(vframe, "&X-scale");
+	bxscale->Connect("Clicked()", "AppFrame", this, "ToggleXScale()");
+	vframe->AddFrame(bxscale,
 		new TGLayoutHints(kLHintsCenterX | kLHintsExpandX, 2, 4, 4, 4));
 
 	TGCheckButton* bcheck[8];
@@ -134,6 +139,22 @@ int AppFrame::ToggleScale() {
 
 int AppFrame::GetScale() {
 	return m_scale;
+}
+
+int AppFrame::ToggleXScale() {
+	const int scale_factor[] = {512, 256, 128, 64, 32, 16};
+	static int sf_index = 0;
+
+	if (++sf_index > 5) sf_index = 0;
+	m_xscale = scale_factor[sf_index];
+
+	//std::cout << "#D xscale " << sf_index << " " << m_xscale << std::endl;
+
+	return m_xscale;
+}
+
+int AppFrame::GetXScale() {
+	return m_xscale;
 }
 
 bool* AppFrame::DoEnableCh() {

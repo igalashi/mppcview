@@ -80,6 +80,7 @@ void reader(void *arg = NULL)
 		gr[i]->SetMaximum(512. + 512);
 		gr[i]->SetMinimum(512. - 512);
 	}
+	gr[4]->SetLineColor(28);
 	
 
 
@@ -156,7 +157,8 @@ void reader(void *arg = NULL)
 				prev_scale = scale;
 			}
 
-			gr[ch_first]->GetXaxis()->SetLimits(0., 1024.);
+			int xscale = af->GetXScale();
+			gr[ch_first]->GetXaxis()->SetLimits(512. - xscale, 512. + xscale);
 
 			TCanvas *c = af->GetCanvas();
 			c->Update();

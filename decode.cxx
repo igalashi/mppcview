@@ -2,6 +2,9 @@
  *
  */
 
+#ifndef INC_MPPC_DECODER
+#define INC_MPPC_DECODER
+
 #include <iostream>
 #include <iomanip>
 #include <vector>
@@ -122,4 +125,6 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
+#endif
+
 #endif
